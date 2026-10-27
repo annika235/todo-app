@@ -31,11 +31,11 @@ public class TaskService {
         return taskRepository.findById(id);
     }
 
-    public void markTaskAsDone(Long id){
+    public void toggleIsDone(Long id){
         Optional<Task> optionalTask = taskRepository.findById(id);
         if (optionalTask.isPresent()){
             Task task = optionalTask.get();
-            task.setDone(true);
+            task.setDone(!task.isDone());
             taskRepository.save(task);
         }
 

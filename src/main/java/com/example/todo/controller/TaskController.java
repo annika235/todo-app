@@ -12,59 +12,58 @@ import java.util.Optional;
 @RestController
 //alle Methoden sind unter dem Endpoint erreichbar
 @RequestMapping("/tasks")
+//Spring Boot darf Anfragen von Port 4200 akzeptieren
+@CrossOrigin(origins = "http://localhost:4200")
 public class TaskController {
 
     private final TaskService taskService;
 
-    public TaskController(TaskService taskService){
+    public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
 
     @GetMapping
-    public List<Task> showTasks(){
+    public List<Task> showTasks() {
         return taskService.getAllTasks();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Task> showTaskById(@PathVariable Long id){
+    public ResponseEntity<Task> showTaskById(@PathVariable Long id) {
         Optional<Task> task = taskService.getTaskById(id);
 
-        if (task.isPresent()){
+        if (task.isPresent()) {
             return ResponseEntity.ok(task.get());
-        }
-        else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    public ResponseEntity<Task> createTask(@RequestBody Task task){
+    public ResponseEntity<Task> createTask(@RequestBody Task task) {
         Task newTask = taskService.createTask(task.getName());
-        URI location = URI.create("/tasks/"+ newTask.getId());
+        URI location = URI.create("/tasks/" + newTask.getId());
         return ResponseEntity.created(location).body(newTask);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> markTaskAsDone(@PathVariable Long id){
+    public ResponseEntity<Void> markTaskAsDone(@PathVariable Long id) {
         Optional<Task> task = taskService.getTaskById(id);
-        if (task.isPresent()){
-            taskService.markTaskAsDone(id);
+        if (task.isPresent()) {
+            taskService.toggleIsDone(id);
             return ResponseEntity.ok().build();
-        }
-        else {
+        } else {
             return ResponseEntity.notFound().build();
         }
 
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id){
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
         Optional<Task> task = taskService.getTaskById(id);
         if (task.isPresent()) {
             taskService.deleteTask(id);
             return ResponseEntity.noContent().build();
-        }
-        else{
+        } else {
             return ResponseEntity.notFound().build();
         }
     }

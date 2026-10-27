@@ -10,7 +10,7 @@ public class Task {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private boolean isDone;
+    private boolean done;
 
     //Parameterloser Konstruktor, damit Hibernate erstmal das Objekt erzeugen kann und anschließend
     //die Werte aus der DB einsetzt
@@ -18,7 +18,7 @@ public class Task {
 
     public Task(String name) {
         this.name = name;
-        this.isDone = false;
+        this.done = false;
     }
 
     public Long getId() {
@@ -26,11 +26,11 @@ public class Task {
     }
 
     public boolean isDone() {
-        return isDone;
+        return done;
     }
 
     public void setDone(boolean done) {
-        isDone = done;
+        this.done = done;
     }
 
     public String getName() {
