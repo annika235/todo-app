@@ -1,0 +1,42 @@
+<mat-toolbar>
+  <span>My Application</span>
+</mat-toolbar>
+<main>
+  <section>
+    <input #eingabeFeld type="text" placeholder="Neue Aufgabe erstellen">
+    <button matButton (click)="aufgabeEinfuegen(eingabeFeld.value); eingabeFeld.value ='' ">speichern</button>
+  </section>
+  <section>
+    <h2>Offene Aufgaben</h2>
+    <mat-list role="list">
+      @if (aufgaben().length < 1) {
+        <mat-spinner></mat-spinner>
+      }
+      @for (aufgabe of aufgaben(); track aufgabe.id) {
+        @if (!aufgabe.done) {
+          <mat-list-item role="listitem">
+            <mat-icon class="bulletpoint" matListItemIcon> fiber_manual_record</mat-icon>
+            <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)"
+                          labelPosition="before">{{ aufgabe.name }}
+            </mat-checkbox>
+            <button type="button" (click)="aufgabeLoeschen(aufgabe)">löschen</button>
+          </mat-list-item>
+        }
+      }
+    </mat-list>
+    <h2>Erledigte Aufgaben</h2>
+    <mat-list role="list">
+      @for (aufgabe of aufgaben(); track aufgabe.id) {
+        @if (aufgabe.done) {
+          <mat-list-item role="listitem">
+            <mat-icon class="bulletpoint" matListItemIcon> fiber_manual_record</mat-icon>
+            <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)"
+                          labelPosition="before">{{ aufgabe.name }}
+            </mat-checkbox>
+            <button type="button" (click)="aufgabeLoeschen(aufgabe)">löschen</button>
+          </mat-list-item>
+        }
+      }
+    </mat-list>
+  </section>
+</main>
