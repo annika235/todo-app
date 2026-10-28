@@ -2,11 +2,11 @@ import {Component, inject, signal, WritableSignal} from '@angular/core';
 import {MatListModule} from '@angular/material/list';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIcon} from '@angular/material/icon';
-import {HttpClient} from '@angular/common/http';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatToolbar} from '@angular/material/toolbar';
 import {MatButton, MatMiniFabButton} from '@angular/material/button';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
+import {taskService} from '../service/taskService';
 
 @Component({
   selector: 'app-root',
@@ -15,15 +15,16 @@ import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
   imports: [MatListModule, MatCheckboxModule, MatIcon, MatProgressSpinner, MatToolbar, MatButton, MatFormField, MatLabel, MatInput, MatMiniFabButton],
 })
 export class App {
-  http = inject(HttpClient);
+
   aufgaben: WritableSignal<Aufgabe[]> = signal([]);
+  taskService: taskService = new taskService();
 
   constructor() {
     this.getAllTasks();
   }
 
   getAllTasks() {
-    this.http.get("http://localhost:8080/tasks").subscribe({
+    this.taskService.getAllTasks().subscribe({
       next: (response: any) => {
         this.aufgaben.set([...response].sort((a, b) => a.id - b.id));
       }
@@ -39,7 +40,7 @@ export class App {
       name: aufgabenName,
       done: false,
     };
-    this.http.post("http://localhost:8080/tasks", neueAufgabe).subscribe({
+    this.taskService.aufgabeEinfuegen(neueAufgabe).subscribe({
       next: (result: any) => {
         if (result.name === neueAufgabe.name) {
           this.getAllTasks();
@@ -49,7 +50,10 @@ export class App {
   }
 
   aufgabeLoeschen(aufgabe: Aufgabe) {
-    this.http.delete("http://localhost:8080/tasks/" + aufgabe.id).subscribe({
+    if (aufgabe.id === undefined) {
+      return;
+    }
+    this.taskService.aufgabeLoeschen(aufgabe.id).subscribe({
       next: (result: any) => {
         this.getAllTasks();
       }
@@ -57,14 +61,15 @@ export class App {
   }
 
   toggleIsDone(aufgabe: Aufgabe) {
-    this.http.put("http://localhost:8080/tasks/" + aufgabe.id, null).subscribe({
+    if (aufgabe.id === undefined) {
+      return;
+    }
+    this.taskService.toggleIsDone(aufgabe.id, null).subscribe({
         next: (result: any) => {
-          console.log("********************komm ich hier rein");
           this.getAllTasks();
         }
       }
     )
-    console.log("***********************tasks", this.aufgaben());
   }
 
 }
