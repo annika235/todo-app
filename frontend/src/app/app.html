@@ -1,42 +1,57 @@
-<mat-toolbar>
-  <span>My Application</span>
+<mat-toolbar color="primary" class="main-header">
+  <span>Meine To-Do-Liste</span>
+  <mat-icon>calendar_today</mat-icon>
 </mat-toolbar>
-<main>
-  <section>
-    <input #eingabeFeld type="text" placeholder="Neue Aufgabe erstellen">
-    <button matButton (click)="aufgabeEinfuegen(eingabeFeld.value); eingabeFeld.value ='' ">speichern</button>
+<main class="todo-container">
+  <section class="neueAufgabe">
+    <mat-form-field subscriptSizing="dynamic">
+      <mat-label>Neue Aufgabe erstellen</mat-label>
+      <input matInput #eingabeFeld>
+    </mat-form-field>
+    <button matButton="filled" (click)="aufgabeEinfuegen(eingabeFeld.value); eingabeFeld.value ='' ">speichern</button>
   </section>
-  <section>
-    <h2>Offene Aufgaben</h2>
-    <mat-list role="list">
-      @if (aufgaben().length < 1) {
-        <mat-spinner></mat-spinner>
-      }
-      @for (aufgabe of aufgaben(); track aufgabe.id) {
-        @if (!aufgabe.done) {
-          <mat-list-item role="listitem">
-            <mat-icon class="bulletpoint" matListItemIcon> fiber_manual_record</mat-icon>
-            <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)"
-                          labelPosition="before">{{ aufgabe.name }}
-            </mat-checkbox>
-            <button type="button" (click)="aufgabeLoeschen(aufgabe)">löschen</button>
-          </mat-list-item>
+  <div class="listen-container">
+    <section class="aufgabenListe">
+      <h2>Offene Aufgaben</h2>
+      <mat-list role="list">
+        @if (aufgaben().length < 1) {
+          <mat-spinner></mat-spinner>
         }
-      }
-    </mat-list>
-    <h2>Erledigte Aufgaben</h2>
-    <mat-list role="list">
-      @for (aufgabe of aufgaben(); track aufgabe.id) {
-        @if (aufgabe.done) {
-          <mat-list-item role="listitem">
-            <mat-icon class="bulletpoint" matListItemIcon> fiber_manual_record</mat-icon>
-            <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)"
-                          labelPosition="before">{{ aufgabe.name }}
-            </mat-checkbox>
-            <button type="button" (click)="aufgabeLoeschen(aufgabe)">löschen</button>
-          </mat-list-item>
+        @for (aufgabe of aufgaben(); track aufgabe.id) {
+          @if (!aufgabe.done) {
+            <mat-list-item role="listitem">
+              <mat-icon class="bulletpoint" matListItemIcon>&#9679;</mat-icon>
+              <span matListItemTitle>{{ aufgabe.name }}</span>
+              <div matListItemMeta class="listen-buttons">
+                <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)">
+                </mat-checkbox>
+                <button matMiniFab (click)="aufgabeLoeschen(aufgabe)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+          }
         }
-      }
-    </mat-list>
-  </section>
+      </mat-list>
+    </section>
+    <section class="aufgabenListe">
+      <h2>Erledigte Aufgaben</h2>
+      <mat-list role="list">
+        @for (aufgabe of aufgaben(); track aufgabe.id) {
+          @if (aufgabe.done) {
+            <mat-list-item role="listitem">
+              <mat-icon class="bulletpoint" matListItemIcon>&#9679;</mat-icon>
+              <span matListItemTitle>{{ aufgabe.name }}</span>
+              <div matListItemMeta class="listen-buttons">
+                <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)"></mat-checkbox>
+                <button matMiniFab (click)="aufgabeLoeschen(aufgabe)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </mat-list-item>
+          }
+        }
+      </mat-list>
+    </section>
+  </div>
 </main>

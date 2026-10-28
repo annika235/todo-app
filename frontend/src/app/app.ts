@@ -5,12 +5,14 @@ import {MatIcon} from '@angular/material/icon';
 import {HttpClient} from '@angular/common/http';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {MatToolbar} from '@angular/material/toolbar';
+import {MatButton, MatMiniFabButton} from '@angular/material/button';
+import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 
 @Component({
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
-  imports: [MatListModule, MatCheckboxModule, MatIcon, MatProgressSpinner, MatToolbar],
+  imports: [MatListModule, MatCheckboxModule, MatIcon, MatProgressSpinner, MatToolbar, MatButton, MatFormField, MatLabel, MatInput, MatMiniFabButton],
 })
 export class App {
   http = inject(HttpClient);
