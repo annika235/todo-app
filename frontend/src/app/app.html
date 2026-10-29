@@ -19,17 +19,10 @@
         }
         @for (aufgabe of aufgaben(); track aufgabe.id) {
           @if (!aufgabe.done) {
-            <mat-list-item role="listitem">
-              <mat-icon class="bulletpoint" matListItemIcon>&#9679;</mat-icon>
-              <span matListItemTitle>{{ aufgabe.name }}</span>
-              <div matListItemMeta class="listen-buttons">
-                <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)">
-                </mat-checkbox>
-                <button matMiniFab (click)="aufgabeLoeschen(aufgabe)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </mat-list-item>
+            <app-liste [aufgabe]="aufgabe"
+                       (toggleIsDone)="toggleIsDone(aufgabe)"
+                       (aufgabeLoeschen)="aufgabeLoeschen(aufgabe)">
+            </app-liste>
           }
         }
       </mat-list>
@@ -39,16 +32,11 @@
       <mat-list role="list">
         @for (aufgabe of aufgaben(); track aufgabe.id) {
           @if (aufgabe.done) {
-            <mat-list-item role="listitem">
-              <mat-icon class="bulletpoint" matListItemIcon>&#9679;</mat-icon>
-              <span matListItemTitle>{{ aufgabe.name }}</span>
-              <div matListItemMeta class="listen-buttons">
-                <mat-checkbox [checked]="aufgabe.done" (change)="toggleIsDone(aufgabe)"></mat-checkbox>
-                <button matMiniFab (click)="aufgabeLoeschen(aufgabe)">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-            </mat-list-item>
+            <app-liste [aufgabe]="aufgabe"
+                       (toggleIsDone)="toggleIsDone(aufgabe)"
+                       (aufgabeLoeschen)="aufgabeLoeschen(aufgabe)">
+
+            </app-liste>
           }
         }
       </mat-list>

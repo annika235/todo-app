@@ -7,12 +7,13 @@ import {MatToolbar} from '@angular/material/toolbar';
 import {MatButton, MatMiniFabButton} from '@angular/material/button';
 import {MatFormField, MatInput, MatLabel} from '@angular/material/input';
 import {taskService} from '../service/taskService';
+import {Liste} from './liste/liste';
 
 @Component({
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
-  imports: [MatListModule, MatCheckboxModule, MatIcon, MatProgressSpinner, MatToolbar, MatButton, MatFormField, MatLabel, MatInput, MatMiniFabButton],
+  imports: [MatListModule, MatCheckboxModule, MatIcon, MatProgressSpinner, MatToolbar, MatButton, MatFormField, MatLabel, MatInput, Liste],
 })
 export class App {
 
@@ -26,6 +27,7 @@ export class App {
   getAllTasks() {
     this.taskService.getAllTasks().subscribe({
       next: (response: any) => {
+        console.log('-------funktioniert get all tasks', response);
         this.aufgaben.set([...response].sort((a, b) => a.id - b.id));
       }
     })
@@ -64,7 +66,7 @@ export class App {
     if (aufgabe.id === undefined) {
       return;
     }
-    this.taskService.toggleIsDone(aufgabe.id, null).subscribe({
+    this.taskService.toggleIsDone(aufgabe.id).subscribe({
         next: (result: any) => {
           this.getAllTasks();
         }

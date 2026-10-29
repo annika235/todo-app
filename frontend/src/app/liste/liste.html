@@ -1,0 +1,11 @@
+<mat-list-item role="listitem">
+  <mat-icon class="bulletpoint" matListItemIcon>&#9679;</mat-icon>
+  <span matListItemTitle>{{ aufgabe.name }}</span>
+  <div matListItemMeta class="listen-buttons">
+    <mat-checkbox [checked]="aufgabe.done" (change)="toggleInApp(aufgabe)">
+    </mat-checkbox>
+    <button matMiniFab (click)="loescheInApp(aufgabe)">
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+</mat-list-item>
