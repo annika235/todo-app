@@ -1,9 +1,13 @@
-import {inject, signal, WritableSignal} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Aufgabe} from '../app/app';
 
+
+@Injectable({
+  providedIn: 'root'
+})
 export class taskService {
-  http = inject(HttpClient);
+  http: HttpClient = inject(HttpClient);
 
   getAllTasks() {
     return this.http.get("http://localhost:8080/tasks/");
@@ -17,8 +21,8 @@ export class taskService {
     return this.http.delete("http://localhost:8080/tasks/" + aufgabenId);
   }
 
-  toggleIsDone(aufgabenId: number, body) {
-    return this.http.put("http://localhost:8080/tasks/" + aufgabenId, body);
+  toggleIsDone(aufgabenId: number) {
+    return this.http.put("http://localhost:8080/tasks/" + aufgabenId, null);
   }
 
 
