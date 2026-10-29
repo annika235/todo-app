@@ -6,11 +6,11 @@ import {Aufgabe} from '../app/app';
 @Injectable({
   providedIn: 'root'
 })
-export class taskService {
+export class TaskClient {
   http: HttpClient = inject(HttpClient);
 
   getAllTasks() {
-    return this.http.get("http://localhost:8080/tasks/");
+    return this.http.get("http://localhost:8080/tasks");
   }
 
   aufgabeEinfuegen(neueAufgabe: Aufgabe) {
@@ -24,6 +24,4 @@ export class taskService {
   toggleIsDone(aufgabenId: number) {
     return this.http.put("http://localhost:8080/tasks/" + aufgabenId, null);
   }
-
-
 }
